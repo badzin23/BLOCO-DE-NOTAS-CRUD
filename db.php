@@ -14,8 +14,7 @@
         $titulo = $_POST['titulo'];
         $categoria = $_POST['categoria'];
         $conteudo = $_POST['conteudo'];
-        $sql = "INSERT INTO notas (user_id, titulo, categoria, conteudo) VALUES ('$titulo', '$categoria', '$conteudo')";
-        $conn-> query($sql);
+        $sql = "INSERT INTO notas (titulo, categoria, conteudo) VALUES ('$titulo', '$categoria', '$conteudo')";
         echo "A nota foi criada";
     }
 
@@ -47,6 +46,18 @@
         }
     
     }
+
+    $result = $conn -> query("SELECT * FROM notas");
+
+$sql = "SELECT * FROM notas";
+
+$result = $conn -> query($sql);
+
+if ($result -> num_rows > 0)
+    echo "<table border='1'>
+    <tr>
+        <th>"
+
 ?>
 <html lang="pt_br">
 <head>
@@ -68,10 +79,30 @@
 <h2>Atualizar nota</h2>
     <form method="POST">
         id da aula <input type="number" name="id" placeholder="id"  required><br><br>
-        Nome aula <input type="text" name="nome" placeholder="Nome aula"  required><br><br>
-        sala aula <input type="text" name="sala" placeholder="Sala aula"  required><br><br>
-        hora aula <input type="time" name="hora" placeholder="Hora aula"  required><br><br>
-        data aula <input type="date" name="data_aula" placeholder="Sala aula"  required><br><br>
+        Título: <input type="text" name="titulo"><br>
+        Categoria: <input type="text" name="categoria"><br>
+        Conteúdo: <textarea name="conteudo"></textarea><br>
         <input type="submit" name="update_aula" value="Atualizar Aula">
     </form>
+
+    <h2>Tabela notas</h2>
+    <table borde="1">
+        <tr>
+            <th>ID</th>
+            <th>Titulo</th>
+            <th>categoria</th>
+            <th>conteudo</th>
+        </tr>
+
+        <?php while($row = $result -> fetch_assoc()){ ?>
+            <tr>
+                <td><?php echo $row['id']; ?></td>
+                <td><?php echo $row['titulo']; ?></td>
+                <td><?php echo $row['categoria']; ?></td>
+                <td><?php echo $row['conteudo']; ?></td>
+                <td> 
+                    <a href="index.php?delete=<?php echo $row['id'] ?>">Excluir</a>
+                </td>
+            </tr>
+        <?php } ?>
 
